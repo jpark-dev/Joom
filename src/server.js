@@ -16,13 +16,16 @@ const handleListen = () => console.log(`Listening on http://localhost:3000`);
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
+const onSocketClose = () => {
+  console.log("Disconnected from a User.");
+};
+
 wss.on("connection", (socket) => {
   console.log("Connected to a User");
-  socket.on("close", () => {
-    console.log("Disconnected from a User.");
-  });
+  socket.on("close", onSocketClose);
   socket.on("message", (message) => {
-    console.log("User >>", message.toString('utf-8'));
+    const encodedMsg = message.toString("utf-8");
+    socket.send(encodedMsg);
   });
   socket.send("Howdy! Welcome to zeipar's world!!");
 });
