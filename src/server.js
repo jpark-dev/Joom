@@ -16,10 +16,15 @@ const handleListen = () => console.log(`Listening on http://localhost:3000`);
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
-const handleConnection = (socket) => {
-  console.log(socket);
-};
-
-wss.on("connection", handleConnection);
+wss.on("connection", (socket) => {
+  console.log("Connected to a User");
+  socket.on("close", () => {
+    console.log("Disconnected from a User.");
+  });
+  socket.on("message", (message) => {
+    console.log("User >>", message.toString('utf-8'));
+  });
+  socket.send("Howdy! Welcome to zeipar's world!!");
+});
 
 server.listen(3000, handleListen);
