@@ -20,12 +20,15 @@ const onSocketClose = () => {
   console.log("Disconnected from a User.");
 };
 
+const sockets = [];
+
 wss.on("connection", (socket) => {
+  sockets.push(socket);
   console.log("Connected to a User");
   socket.on("close", onSocketClose);
   socket.on("message", (message) => {
     const encodedMsg = message.toString("utf-8");
-    socket.send(encodedMsg);
+    sockets.forEach(aSocket => aSocket.send(encodedMsg));
   });
   socket.send("Howdy! Welcome to zeipar's world!!");
 });
