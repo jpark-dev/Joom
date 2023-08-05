@@ -9,8 +9,11 @@ html(lang="en")
     header 
       h1 Joom
     main 
+      form#nickname
+        input(type="text", placeholder="Set a nickname")
+        button Save Nickname
       ul
-      form
+      form#message
         input(type="text", placeholder="Send a message", required)
         button Send
     script(src="/public/js/app.js")
